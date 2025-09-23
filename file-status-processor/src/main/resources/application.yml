@@ -1,0 +1,29 @@
+server:
+  port: 8081
+
+spring:
+  config:
+    import: "optional:configserver:http://localhost:8888"
+  application:
+    name: file-status-processor
+
+  data:
+    mongodb:
+      uri: ${mongodb.uri}
+      database: ${mongodb.database}
+
+  cloud:
+    stream:
+      bindings:
+        statusEvent-in-0:
+          destination: ${kafka.topic.status}
+          group: file-status-processor-group
+      kafka:
+        binder:
+          brokers: ${kafka.bootstrap-servers}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, env

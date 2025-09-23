@@ -1,0 +1,31 @@
+server:
+  port: 8888
+
+spring:
+  application:
+    name: config-server
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/GBGodea/firestarter-configs.git
+          default-label: main
+          clone-on-start: true
+          search-paths:
+            - file-uploader
+            - file-processor
+            - file-status-processor
+
+logging:
+  level:
+    org.springframework.cloud.config.server: DEBUG
+    org.springframework.web: INFO
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, env, refresh
+  endpoint:
+    health:
+      show-details: always
