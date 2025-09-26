@@ -30,7 +30,7 @@ public class FileUploadService {
         Instant now = Instant.now();
 
         publisherService.publishStatusEvent(StatusEventDto.builder()
-                .eventType("accepted")
+                .event("accepted")
                 .filename(file.getOriginalFilename())
                 .fileHash(hash)
                 .timestamp(now)
@@ -38,7 +38,7 @@ public class FileUploadService {
 
         if (fileHashStoreService.exists(hash)) {
             publisherService.publishStatusEvent(StatusEventDto.builder()
-                    .eventType("already_uploaded")
+                    .event("already_uploaded")
                     .fileHash(hash)
                     .filename(file.getOriginalFilename())
                     .timestamp(now)
@@ -62,7 +62,7 @@ public class FileUploadService {
                     .timestamp(now)
                     .build();
             publisherService.publishStatusEvent(StatusEventDto.builder()
-                    .eventType("validation_success")
+                    .event("validation_success")
                     .fileHash(hash)
                     .filename(file.getOriginalFilename())
                     .timestamp(now)
@@ -75,7 +75,7 @@ public class FileUploadService {
                     .build();
         } catch (FileValidationError e) {
             publisherService.publishStatusEvent(StatusEventDto.builder()
-                    .eventType("validation_error")
+                    .event("validation_error")
                     .filename(file.getOriginalFilename())
                     .fileHash(hash)
                     .timestamp(Instant.now())

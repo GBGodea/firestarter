@@ -8,7 +8,7 @@ import java.time.Instant;
 @Data
 @Builder
 public class StatusEventDto {
-    private String eventType;
+    private String event;
     private String fileHash;
     private String filename;
     private String message;

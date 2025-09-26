@@ -19,7 +19,13 @@ spring:
             spring.json.trusted.packages: '*'
 
 server:
-  port: 8080
+  port: 8443
+  ssl:
+    enabled: true
+    key-store: classpath:keystore.p12
+    key-store-password: changeit
+    key-store-type: PKCS12
+    key-alias: myalias
 
 
 management:
@@ -36,3 +42,4 @@ management:
       show-details: always
     env:
       access: unrestricted
+
