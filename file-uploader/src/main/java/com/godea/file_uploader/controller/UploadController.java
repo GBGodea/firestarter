@@ -26,7 +26,6 @@ public class UploadController {
         try {
             log.info("Received file upload request: filename={}, size={}",
                     file.getOriginalFilename(), file.getSize());
-
             UploadResponse response = fileUploadService.processFile(file);
             return ResponseEntity.ok(response);
         } catch(Exception e) {

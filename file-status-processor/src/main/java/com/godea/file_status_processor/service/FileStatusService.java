@@ -12,13 +12,23 @@ public class FileStatusService {
     private FileStatusRepository repository;
 
     public void handleStatusEvent(StatusEvent event) {
-        FileStatus status = new FileStatus();
-        status.setStatus(event.getEventType());
-        status.setFilename(event.getFilename());
-        status.setMessage(event.getMessage());
-        status.setFileHash(event.getFileHash());
-        status.setTimestamp(System.currentTimeMillis());
-        repository.save(status);
+        repository.findById(event.getFileHash())
+                .map(existing -> {
+                    existing.setStatus(event.getEvent());
+                    existing.setMessage(event.getMessage());
+                    existing.setTimestamp(event.getTimestamp().toEpochMilli());
+                    return repository.save(existing);
+                })
+                .orElseGet(() -> {
+                    FileStatus newStatus = FileStatus.builder()
+                            .fileHash(event.getFileHash())
+                            .filename(event.getFilename())
+                            .status(event.getEvent())
+                            .message(event.getMessage())
+                            .timestamp(event.getTimestamp().toEpochMilli())
+                            .build();
+                    return repository.save(newStatus);
+                });
     }
 
     public FileStatus getStatus(String fileHash) {

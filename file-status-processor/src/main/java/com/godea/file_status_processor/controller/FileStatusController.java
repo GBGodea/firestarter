@@ -15,7 +15,7 @@ public class FileStatusController {
     private FileStatusService statusService;
 
     @GetMapping("/{filehash}")
-    public FileStatus getStatus(@PathVariable String fileHash) {
+    public FileStatus getStatus(@PathVariable("filehash") String fileHash) {
         return statusService.getStatus(fileHash);
     }
 }

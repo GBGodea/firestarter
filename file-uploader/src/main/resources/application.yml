@@ -8,11 +8,15 @@ spring:
       bindings:
         uploadEvents-out-0:
           destination: ${kafka.topic.upload}
+          contentType: application/json
         fileStatusEvents-out-0:
           destination: ${kafka.topic.status}
+          contentType: application/json
       kafka:
         binder:
           brokers: ${spring.kafka.bootstrap-servers}
+          configuration:
+            spring.json.trusted.packages: '*'
 
 server:
   port: 8080
